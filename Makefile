@@ -1,13 +1,18 @@
-.PHONY: menv build run test testv buildexample runexample
+.PHONY: menv test testv build run buildexample runexample
 
 PARENT_DIR := $(notdir $(CURDIR))
-EXAMPLE_DIR := $(PARENT_DIR)/example
 
 menv:
 	@echo "Current directory: $(CURDIR)"
 	@echo "Parent directory name: $(PARENT_DIR)"
-	@echo "Example directory: $(EXAMPLE_DIR)"
 
+test:
+	@go test ./...
+
+testv:
+	@go test -v ./...
+
+# Build for application
 build:
 	@echo "Size before build:"; \
 	ls -la |grep $(PARENT_DIR); \
@@ -18,26 +23,25 @@ build:
 	ls -la |grep $(PARENT_DIR); \
 	ls -lh |grep $(PARENT_DIR)
 
+# Run for application
 run:
 	@go run .
 
-test:
-	@go test ./...
-
-testv:
-	@go test -v ./...
-
+# Build for package examples
 buildexample:
-	@cd $(EXAMPLE_DIR); \
-	ls -la; \
-	ls -lh; \
+	@cd example; \
+	echo "Size before build:"; \
+	ls -la |grep 'example'; \
+	ls -lh |grep example; \
+	echo "\n\nSize after build:"; \
 	CGO_ENABLED=0 go build --ldflags "-s -w"; \
 	strip example; \
-	ls -la; \
-	ls -lh; \
+	ls -la |grep example; \
+	ls -lh |grep example; \
 	cd ..
 
+# Run for package examples
 runexample:
-	@cd $(EXAMPLE_DIR); \
+	@cd example; \
 	go run main.go; \
 	cd ..
