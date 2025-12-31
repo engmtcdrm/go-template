@@ -29,19 +29,19 @@ run:
 
 # Build for package examples
 buildexample:
-	@cd example; \
+	@cd examples; \
 	echo "Size before build:"; \
-	ls -la |grep 'example'; \
-	ls -lh |grep example; \
+	ls -la |grep examples; \
+	ls -lh |grep examples; \
 	echo "\n\nSize after build:"; \
 	CGO_ENABLED=0 go build --ldflags "-s -w"; \
-	strip example; \
-	ls -la |grep example; \
-	ls -lh |grep example; \
+	strip examples; \
+	ls -la |grep examples; \
+	ls -lh |grep examples; \
 	cd ..
 
 # Run for package examples
 runexample:
-	@cd example; \
-	go run main.go; \
+	@cd examples; \
+	go run .; \
 	cd ..
